@@ -1,0 +1,28 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Local runtime / logs
+.codex-logs/
+*.log
+
+# Backend secrets and runtime state
+backend/.env
+backend/.env.local
+backend/.auth_states/
+backend/test_framework.db
+
+# Frontend dependencies and build output
+frontend/node_modules/
+frontend/dist/
+
+# Playwright / generated reports
+reports/
+
