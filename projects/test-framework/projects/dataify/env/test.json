@@ -1,0 +1,12 @@
+{
+  "name": "test",
+  "base_url": "http://test-qzxbjwry.dataify-dev.com",
+  "description": "测试环境",
+  "api_base_url": "http://test-qzxbjwry.dataify-dev.com/api",
+  "timeout": 30,
+  "headless": false,
+  "viewport": {
+    "width": 1920,
+    "height": 1080
+  }
+}

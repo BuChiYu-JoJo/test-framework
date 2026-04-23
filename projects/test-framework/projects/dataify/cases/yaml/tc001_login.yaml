@@ -1,0 +1,78 @@
+# 用例ID
+id: TC001
+# 用例名称
+name: 账号密码登录-正确账密登录
+# 所属模块
+module: login
+# 优先级: P0(冒烟)/P1(核心)/P2(一般)/P3(低)
+priority: P0
+# 标签
+tags:
+  - 冒烟
+  - 核心流程
+  - 登录
+  - 账号密码
+# 版本
+version: 1.0.2
+# 作者
+author: testmaster
+# 创建时间
+created_at: 2026-04-20
+# 更新原因
+updated_reason: 修正 locator key，使用实际抓取的 dataify 账密登录页面元素
+
+# 前置条件
+setup:
+  - action: clear_cookies
+    target: ""
+
+# 测试步骤
+steps:
+  - no: 1
+    action: navigate
+    target: /login/
+    description: 打开登录页（默认显示验证码登录）
+
+  - no: 2
+    action: click
+    target: login.switchToAccount
+    description: 点击切换到账号登录Tab
+
+  - no: 3
+    action: wait
+    value: "1"
+    description: 等待表单切换动画完成
+
+  - no: 4
+    action: type
+    target: login.username
+    value: ${USERNAME}
+    description: 输入用户名/手机号
+
+  - no: 5
+    action: type
+    target: login.password
+    value: ${PASSWORD}
+    description: 输入密码
+
+  - no: 6
+    action: click
+    target: login.submitBtn
+    description: 点击立即登录按钮
+
+  - no: 7
+    action: wait
+    value: "3"
+    description: 等待登录响应
+
+# 预期结果
+expected:
+  # 登录成功应跳转到 dashboard 或其他业务页面
+  # 失败则停留在登录页或出现错误提示
+  - url_not_contains: /login
+  - element_visible: login.username
+
+# 测试数据
+data:
+  USERNAME: "15251686234"
+  PASSWORD: "Zxs6412915@+"

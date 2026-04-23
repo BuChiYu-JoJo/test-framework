@@ -1,0 +1,141 @@
+{
+  "version": "1.0.0",
+  "pages": {
+    "login": {
+      "name": "login",
+      "elements": {
+        "username": {
+          "selector": "[placeholder='请输入用户名或手机号']",
+          "type": "css",
+          "description": "用户名/手机号输入框",
+          "priority": 1
+        },
+        "password": {
+          "selector": "[placeholder='请输入密码']",
+          "type": "css",
+          "description": "密码输入框",
+          "priority": 1
+        },
+        "submitBtn": {
+          "selector": "button:has-text('立即登录')",
+          "type": "css",
+          "description": "立即登录按钮",
+          "priority": 1
+        },
+        "switchToAccount": {
+          "selector": "button:has-text('账号登录')",
+          "type": "css",
+          "description": "切换到账号登录Tab",
+          "priority": 2
+        },
+        "switchToSms": {
+          "selector": "button:has-text('验证码登录')",
+          "type": "css",
+          "description": "切换到验证码登录Tab",
+          "priority": 2
+        },
+        "forgotPassword": {
+          "selector": "a:has-text('忘记密码')",
+          "type": "css",
+          "description": "忘记密码链接",
+          "priority": 2
+        },
+        "termsLink": {
+          "selector": "a:has-text('使用条款')",
+          "type": "css",
+          "description": "使用条款链接",
+          "priority": 3
+        },
+        "privacyLink": {
+          "selector": "a:has-text('隐私政策')",
+          "type": "css",
+          "description": "隐私政策链接",
+          "priority": 3
+        },
+        "backHomeLink": {
+          "selector": "a:has-text('返回首页')",
+          "type": "css",
+          "description": "返回首页链接",
+          "priority": 3
+        }
+      }
+    },
+    "login1": {
+      "name": "login1",
+      "elements": {
+        "login1_username_input": {
+          "selector": "input[placeholder='请输入用户名或手机号']",
+          "type": "css",
+          "description": "",
+          "priority": 1
+        },
+        "login1_password_input": {
+          "selector": "input[placeholder='请输入密码']",
+          "type": "css",
+          "description": "",
+          "priority": 1
+        },
+        "login1_verification_login_btn": {
+          "selector": "button:text('验证码登录')",
+          "type": "css",
+          "description": "",
+          "priority": 1
+        },
+        "login1_account_login_btn": {
+          "selector": "button:text('账号登录')",
+          "type": "css",
+          "description": "",
+          "priority": 1
+        },
+        "login1_clear_input_btn": {
+          "selector": "button.px-\\[12px\\]",
+          "type": "css",
+          "description": "",
+          "priority": 1
+        },
+        "login1_remember_me_checkbox": {
+          "selector": "button.mt-\\[1px\\]",
+          "type": "css",
+          "description": "",
+          "priority": 1
+        },
+        "login1_submit_btn": {
+          "selector": "button:has-text('立即登录')",
+          "type": "css",
+          "description": "",
+          "priority": 1
+        },
+        "login1_logo_link": {
+          "selector": "a.w-\\[130px\\]",
+          "type": "css",
+          "description": "",
+          "priority": 1
+        },
+        "login1_forgot_password_link": {
+          "selector": "a[href='/forgot']",
+          "type": "css",
+          "description": "",
+          "priority": 1
+        },
+        "login1_terms_of_service_link": {
+          "selector": "a[href='/terms-of-service']",
+          "type": "css",
+          "description": "",
+          "priority": 1
+        },
+        "login1_privacy_policy_link": {
+          "selector": "a[href='/privacy-policy']",
+          "type": "css",
+          "description": "",
+          "priority": 1
+        },
+        "login1_back_to_home_link": {
+          "selector": "a[href='/']:has-text('返回首页')",
+          "type": "css",
+          "description": "",
+          "priority": 1
+        }
+      }
+    }
+  }
+}
