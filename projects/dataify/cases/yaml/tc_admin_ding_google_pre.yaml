@@ -1,0 +1,52 @@
+id: TC_ADMIN_DING_GOOGLE_PRE
+name: 后台前置登录-钉钉回跳与Google动态码
+module: __precondition__
+priority: P0
+tags:
+- __precondition__
+- 后台
+- 钉钉登录
+- google-auth
+version: 1.0.0
+author: Codex
+created_at: 2026-04-28
+updated_reason: '基于真实后台登录链路创建的前置登录用例。 先使用钉钉回跳参数进入待验证状态，再用 Google Authenticator Base32
+  密钥动态生成当前 TOTP 验证码完成登录。执行成功后可被 AuthStateService 缓存为 storage_state 复用。
+
+  '
+setup:
+- action: clear_cookies
+  target: ''
+  description: 清理旧的 cookies 和 Web Storage，避免复用过期后台登录态
+steps:
+- 'no': 1
+  action: navigate
+  target: ${ADMIN_LOGIN_CALLBACK_URL}
+  description: 使用钉钉回跳参数打开后台登录页，让前端自动进入 Google 二次验证流程
+- 'no': 2
+  action: wait
+  value: '2'
+  description: 等待钉钉登录结果校验完成并弹出 Google 验证框
+- 'no': 3
+  action: wait_for
+  target: input[placeholder='请输入 6 位验证码']
+  description: 等待 Google 验证码输入框出现
+- 'no': 4
+  action: type
+  target: input[placeholder='请输入 6 位验证码']
+  value: ${TOTP:ADMIN_GOOGLE_SECRET}
+  description: 使用 Google 密钥动态生成 6 位验证码并输入
+- 'no': 5
+  action: click
+  target: .ant-modal-footer .ant-btn-primary
+  description: 提交 Google 动态验证码
+- 'no': 6
+  action: wait_for_url
+  value: '**/home'
+  description: 等待后台跳转到首页，表示登录态已建立
+expected:
+- url_not_contains: /user/login
+data:
+  BASE_URL: http://10.0.8.164:8000
+  ADMIN_LOGIN_CALLBACK_URL: http://10.0.8.164:8000/user/login?uid=17356342885421185&account=17356342885421185&nickname=%E5%AE%8B%E6%B6%9B&sign=4ef60922c5ccb32a3eedd57b815bf74c&code=0&timestamp=1777367782
+  ADMIN_GOOGLE_SECRET: YI5VEB5BJA4BZ4VD

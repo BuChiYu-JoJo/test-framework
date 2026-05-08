@@ -1,0 +1,92 @@
+# 用例ID
+id: TC_ADMIN_TOKEN_PRE
+# 用例名称
+name: 后台前置登录-Authorization Token 注入模板
+# 所属模块
+module: __precondition__
+# 优先级
+priority: P0
+# 标签
+tags:
+  - __precondition__
+  - 后台
+  - token登录
+  - 模板
+# 版本
+version: 0.1.0
+# 作者
+author: Codex
+# 创建时间
+created_at: 2026-04-28
+# 说明
+updated_reason: >
+  基于后台 URL 与 authorization token 生成的前置登录模板。
+  已按常见 localStorage/sessionStorage/cookie 方式注入 token，但尚未验证可直接跳过该后台登录页。
+  若执行后仍停留在 /user/login，需要补充真实的会话 cookie 名或登录态交换方式。
+
+# 前置条件
+setup:
+  - action: clear_cookies
+    target: ""
+    description: 清理浏览器 cookies 与 Web Storage，避免旧会话干扰
+
+# 测试步骤
+steps:
+  - "no": 1
+    action: navigate
+    target: http://10.0.8.164:8000/user/login
+    description: 先进入同源登录页，确保后续可以写入 localStorage / sessionStorage / cookie
+
+  - "no": 2
+    action: execute_js
+    target: |
+      () => {
+        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Nzc0MjQ1OTgsImlhdCI6MTc3NzMzODE5OCwibmJmIjoxNzc3MzM4MTk4LCJ1c2VyX2lkIjo4NCwidXNlcm5hbWUiOiLlrovmtpsifQ.uxOxv7mnYaePIOhJtyz_QITakktWOVSLJ_wh2FljWZE";
+        const keys = [
+          "authorization",
+          "Authorization",
+          "token",
+          "access_token",
+          "accessToken",
+          "adminToken",
+          "jwt",
+          "userToken"
+        ];
+        keys.forEach((key) => {
+          try { localStorage.setItem(key, token); } catch (e) {}
+          try { sessionStorage.setItem(key, token); } catch (e) {}
+        });
+        document.cookie = `authorization=${token}; path=/`;
+        document.cookie = `Authorization=${token}; path=/`;
+        document.cookie = `token=${token}; path=/`;
+        return {
+          localKeys: Object.keys(localStorage),
+          sessionKeys: Object.keys(sessionStorage),
+          cookie: document.cookie
+        };
+      }
+    description: 注入 authorization token 到常见存储位置，供后台前端或服务端读取
+
+  - "no": 3
+    action: navigate
+    target: http://10.0.8.164:8000/home
+    description: 跳转后台首页，尝试使用 token 建立后台登录态
+
+  - "no": 4
+    action: wait
+    value: "5"
+    description: 等待后台路由守卫和初始化请求完成
+
+  - "no": 5
+    action: wait_for_url
+    value: "**/home**"
+    description: 期望最终停留在 /home；如果失败，说明 token 不能直接建立后台会话
+
+# 预期结果
+expected:
+  - url_not_contains: /user/login
+
+# 测试数据
+data:
+  BASE_URL: "http://10.0.8.164:8000"
+  AUTHORIZATION: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Nzc0MjQ1OTgsImlhdCI6MTc3NzMzODE5OCwibmJmIjoxNzc3MzM4MTk4LCJ1c2VyX2lkIjo4NCwidXNlcm5hbWUiOiLlrovmtpsifQ.uxOxv7mnYaePIOhJtyz_QITakktWOVSLJ_wh2FljWZE"
